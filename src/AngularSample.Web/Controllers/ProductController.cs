@@ -31,7 +31,7 @@ namespace AngularSample.Web.Controllers
 
         [Route("add")]
         [HttpPost]
-        public Task Add(Product product)
+        public Task Add([FromBody] Product product)
         {
             System.IO.File.AppendAllLines(_repoPath, new[] {JsonConvert.SerializeObject(product)});
 
