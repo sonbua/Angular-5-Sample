@@ -1,3 +1,19 @@
 {
-  
+  "products": [
+    {
+      "id": 1,
+      "name": "tao",
+      "unitPrice": 5
+    },
+    {
+      "id": 2,
+      "name": "cam",
+      "unitPrice": 15
+    },
+    {
+      "name": "le",
+      "unitPrice": 10,
+      "id": 3
+    }
+  ]
 }
