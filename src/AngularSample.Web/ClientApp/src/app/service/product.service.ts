@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
 
 export class Product {
@@ -13,10 +13,12 @@ export class ProductService {
   }
 
   queryAllProducts(): Observable<Product[]> {
-    return this.http.get<Product[]>('https://localhost:5001/api/product/products');
+    return this.http.get<Product[]>('http://localhost:3000/products');
   }
 
   add(product: Product): Observable<any> {
-    return this.http.post('https://localhost:5001/api/product/add', product);
+    let headers = new HttpHeaders();
+    headers.append('Content-Type', 'application/json');
+    return this.http.post('http://localhost:3000/products', product, {headers: headers});
   }
 }
