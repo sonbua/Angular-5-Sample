@@ -28,4 +28,14 @@ export class ProductService {
     headers.append('Content-Type', 'application/json');
     return this.http.delete<any>('http://localhost:3000/products/' + productId, {headers: headers});
   }
+
+  get(productId: number): Observable<Product> {
+    return this.http.get<Product>('http://localhost:3000/products/' + productId);
+  }
+
+  update(product: Product): Observable<Product> {
+    let headers = new HttpHeaders();
+    headers.append('Content-Type', 'application/json');
+    return this.http.put<Product>('http://localhost:3000/products/' + product.id, product, {headers: headers});
+  }
 }

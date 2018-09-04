@@ -22,7 +22,7 @@ export class ProductListComponent implements OnInit {
     });
   }
 
-  delete(productId) {
+  delete(productId: number): void {
     this.productService.delete(productId).subscribe(
       x => this.loadAllProducts()
     );

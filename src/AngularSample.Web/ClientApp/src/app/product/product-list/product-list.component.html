@@ -11,7 +11,10 @@
   <tr *ngFor="let product of products">
     <td>{{product.name}}</td>
     <td>{{product.unitPrice}}</td>
-    <td><a (click)="delete(product.id)">Delete</a></td>
+    <td>
+      <a (click)="delete(product.id)">Delete</a>
+      <a routerLink="/products/edit/{{product.id}}">Edit</a>
+    </td>
   </tr>
   </tbody>
 </table>
