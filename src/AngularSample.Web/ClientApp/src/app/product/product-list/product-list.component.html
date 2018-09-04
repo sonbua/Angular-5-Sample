@@ -4,12 +4,14 @@
   <tr>
     <th>Name</th>
     <th>Unit Price</th>
+    <th>Action</th>
   </tr>
   </thead>
   <tbody>
   <tr *ngFor="let product of products">
     <td>{{product.name}}</td>
     <td>{{product.unitPrice}}</td>
+    <td><a (click)="delete(product.id)">Delete</a></td>
   </tr>
   </tbody>
 </table>
