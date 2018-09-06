@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {Product, ProductService} from "../../service/product.service";
 import {ActivatedRoute, ParamMap, Router} from "@angular/router";
 import {switchMap} from "rxjs/operators";
-import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-edit-product',
