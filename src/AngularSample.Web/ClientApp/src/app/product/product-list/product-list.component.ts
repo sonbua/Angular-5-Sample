@@ -8,6 +8,7 @@ import {Product, ProductService} from "../../service/product.service";
 })
 export class ProductListComponent implements OnInit {
   products: Product[];
+  query: string;
 
   constructor(private productService: ProductService) {
   }
@@ -26,5 +27,16 @@ export class ProductListComponent implements OnInit {
     this.productService.delete(productId).subscribe(
       x => this.loadAllProducts()
     );
+  }
+
+  search(query: string): void {
+    if(!query){
+      this.loadAllProducts();
+      return;
+    }
+
+    this.productService.filterByName(query).subscribe(
+      x => this.products = x
+    )
   }
 }

@@ -17,6 +17,10 @@ export class ProductService {
     return this.http.get<Product[]>('http://localhost:3000/products');
   }
 
+  filterByName(query): Observable<Product[]> {
+    return this.http.get<Product[]>('http://localhost:3000/products?name_like=' + query);
+  }
+
   add(product: Product): Observable<any> {
     let headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');

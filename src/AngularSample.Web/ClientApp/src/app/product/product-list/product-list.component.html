@@ -1,4 +1,6 @@
 <a routerLink="/add-product">Add new</a>
+<input type="text" [(ngModel)]="query" (ngModelChange)="search(query)" />
+
 <table class="table table-bordered">
   <thead>
   <tr>
