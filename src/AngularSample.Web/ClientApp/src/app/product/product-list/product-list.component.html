@@ -1,4 +1,16 @@
-<a routerLink="/add-product">Add new</a>
+<div class="row">
+  <div class="col-sm-6">
+    <a class="btn btn-default" routerLink="/add-product">Add new</a>
+  </div>
+  <div class="col-sm-6">
+    <form action="#" class="text-right">
+      <label for="SearchProduct">
+        Search :
+        <input id="SearchProduct" placeholder="Search Product" type="text" [formControl]="queryControl">
+      </label>
+    </form>
+  </div>
+</div>
 <table class="table table-bordered">
   <thead>
   <tr>
@@ -12,8 +24,8 @@
     <td>{{product.name}}</td>
     <td>{{product.unitPrice}}</td>
     <td>
-      <a (click)="delete(product.id)">Delete</a>
-      <a routerLink="/products/edit/{{product.id}}">Edit</a>
+      <a class="btn btn-danger" (click)="delete(product.id)"><i class="glyphicon glyphicon-trash"></i></a>
+      <a class="btn btn-info" routerLink="/products/edit/{{product.id}}"><i class="glyphicon glyphicon-pencil"></i></a>
     </td>
   </tr>
   </tbody>

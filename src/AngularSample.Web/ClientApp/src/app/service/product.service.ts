@@ -33,6 +33,10 @@ export class ProductService {
     return this.http.get<Product>('http://localhost:3000/products/' + productId);
   }
 
+  search(keyword: string): Observable<Product[]> {
+    return this.http.get<Product[]>('http://localhost:3000/products?name_like=' + keyword);
+  }
+
   update(product: Product): Observable<Product> {
     let headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
