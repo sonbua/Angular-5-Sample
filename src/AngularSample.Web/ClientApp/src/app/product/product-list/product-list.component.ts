@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Product, ProductService} from '../../service/product.service';
 import {FormControl} from '@angular/forms';
-import 'rxjs/add/operator/debounceTime';
+import {debounceTime} from "rxjs/operators";
 
 @Component({
   selector: 'product-list',
@@ -19,7 +19,7 @@ export class ProductListComponent implements OnInit {
   ngOnInit(): void {
     this.loadAllProducts();
     this.queryControl.valueChanges
-      .debounceTime(400)
+      .pipe(debounceTime(400))
       .subscribe(keyword => this.searchProduct(keyword));
   }
 
