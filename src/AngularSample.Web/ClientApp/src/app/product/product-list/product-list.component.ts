@@ -11,9 +11,13 @@ import 'rxjs/add/operator/debounceTime';
 export class ProductListComponent implements OnInit {
   products: Product[];
   queryControl: FormControl;
+  sortType: string;
+  sortReverse : boolean;
 
   constructor(private productService: ProductService) {
     this.queryControl = new FormControl();
+    this.sortType = '';
+    this.sortReverse = true; // set the default sort order
   }
 
   ngOnInit(): void {
@@ -35,13 +39,26 @@ export class ProductListComponent implements OnInit {
     );
   }
 
-  searchProduct(keyword : string): void {
-    if(!keyword){
+  searchProduct(keyword: string): void {
+    if (!keyword) {
       this.loadAllProducts();
       return;
     }
     this.productService.search(keyword).subscribe(products => {
       this.products = products;
     });
+  };
+
+  orderProduct(type: string): void {
+    if(this.sortType !== type){
+      this.sortReverse = true;
+    }
+    this.sortType = type;
+    this.productService.orderBy(this.sortType, this.sortReverse ? 'asc' : 'desc').subscribe(
+      products => {
+        this.products = products;
+        this.sortReverse = !this.sortReverse;
+      }
+    );
   };
 }

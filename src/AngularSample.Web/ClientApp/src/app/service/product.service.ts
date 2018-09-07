@@ -41,6 +41,10 @@ export class ProductService {
     return this.http.get<Product[]>('http://localhost:3000/products?name_like=' + keyword);
   }
 
+  orderBy(typeSort : string, order : string) : Observable<Product[]> {
+    return this.http.get<Product[]>('http://localhost:3000/products?_sort=' + typeSort + '&_order=' + order);
+  }
+
   update(product: Product): Observable<Product> {
     let headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');

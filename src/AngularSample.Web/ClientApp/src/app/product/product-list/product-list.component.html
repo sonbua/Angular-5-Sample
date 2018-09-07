@@ -6,16 +6,24 @@
     <form action="#" class="text-right">
       <label for="SearchProduct">
         Search :
-        <input id="SearchProduct" placeholder="Search Product" type="text" [formControl]="queryControl">
       </label>
+      <input id="SearchProduct" placeholder="Search Product" type="text" [formControl]="queryControl">
     </form>
   </div>
 </div>
 <table class="table table-bordered">
   <thead>
   <tr>
-    <th>Name</th>
-    <th>Unit Price</th>
+    <th (click)="orderProduct('name')">
+      Name
+      <span *ngIf="sortType == 'name' && !sortReverse" class="glyphicon glyphicon-menu-down"></span>
+      <span *ngIf="sortType == 'name' && sortReverse" class="glyphicon glyphicon-menu-up"></span>
+    </th>
+    <th (click)="orderProduct('unitPrice')">
+      Unit Price
+      <span *ngIf="sortType == 'unitPrice' && !sortReverse" class="glyphicon glyphicon-menu-down"></span>
+      <span *ngIf="sortType == 'unitPrice' && sortReverse" class="glyphicon glyphicon-menu-up"></span>
+    </th>
     <th>Action</th>
   </tr>
   </thead>
