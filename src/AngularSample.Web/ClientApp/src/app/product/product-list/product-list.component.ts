@@ -1,7 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {Product, ProductService} from '../../service/product.service';
-import {FormControl} from '@angular/forms';
-import {debounceTime} from "rxjs/operators";
+import { Component, OnInit } from '@angular/core';
+import { Product, ProductService } from '../../service/product.service';
+import { FormControl } from '@angular/forms';
+import { Observable } from "rxjs";
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/switchMap';
 
 @Component({
   selector: 'product-list',
@@ -12,7 +14,7 @@ export class ProductListComponent implements OnInit {
   products: Product[];
   queryControl: FormControl;
   sortType: string;
-  sortReverse : boolean;
+  sortReverse: boolean;
 
   constructor(private productService: ProductService) {
     this.queryControl = new FormControl();
@@ -21,36 +23,28 @@ export class ProductListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadAllProducts();
     this.queryControl.valueChanges
-      .pipe(debounceTime(400))
-      .subscribe(keyword => this.searchProduct(keyword));
-  }
+      .debounceTime(400)
+      .switchMap(keyword => this.search(keyword))
+      .subscribe(products => this.products = products);
 
-  loadAllProducts() {
-    this.productService.queryAllProducts().subscribe(products => {
-      this.products = products;
-    });
+    this.queryControl.updateValueAndValidity();
   }
 
   delete(productId: number): void {
-    this.productService.delete(productId).subscribe(
-      x => this.loadAllProducts()
-    );
+    this.productService.delete(productId)
+      .switchMap(() => this.search(this.queryControl.value))
+      .subscribe(products => this.products = products);
   }
 
-  searchProduct(keyword: string): void {
-    if (!keyword) {
-      this.loadAllProducts();
-      return;
-    }
-    this.productService.search(keyword).subscribe(products => {
-      this.products = products;
-    });
-  };
+  search(keyword): Observable<Product[]> {
+    return keyword
+      ? this.productService.search(keyword)
+      : this.productService.queryAllProducts();
+  }
 
   orderProduct(type: string): void {
-    if(this.sortType !== type){
+    if (this.sortType !== type) {
       this.sortReverse = true;
     }
     this.sortType = type;
