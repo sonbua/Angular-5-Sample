@@ -4,7 +4,8 @@
       <label for="SearchProduct">
         Search :
       </label>
-      <input id="SearchProduct" placeholder="Search Product" type="text" [formControl]="queryControl">
+      <input id="SearchProduct" name="SearchProduct" placeholder="Search Product" type="text"
+             [ngModel]="keyword" (ngModelChange)="onKeywordChanged($event)"/>
     </form>
   </div>
   <div class="col-sm-6 text-right">

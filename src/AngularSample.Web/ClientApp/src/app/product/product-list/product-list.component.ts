@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { Product, ProductService } from '../../service/product.service';
-import { FormControl } from '@angular/forms';
-import { Observable } from "rxjs";
+import {Component, OnInit} from '@angular/core';
+import {Product, ProductService} from '../../service/product.service';
+import {Observable, Subject} from "rxjs";
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/switchMap';
 
@@ -11,30 +10,36 @@ import 'rxjs/add/operator/switchMap';
   providers: [ProductService]
 })
 export class ProductListComponent implements OnInit {
+  private keywordSubject: Subject<string>;
+
   products: Product[];
-  queryControl: FormControl;
+  keyword: string;
   sortType: string;
   sortReverse: boolean;
 
   constructor(private productService: ProductService) {
-    this.queryControl = new FormControl();
+    this.keywordSubject = new Subject<string>();
     this.sortType = '';
     this.sortReverse = true; // set the default sort order
   }
 
   ngOnInit(): void {
-    this.queryControl.valueChanges
+    this.keywordSubject
       .debounceTime(400)
       .switchMap(keyword => this.search(keyword))
       .subscribe(products => this.products = products);
 
-    this.queryControl.updateValueAndValidity();
+    this.onKeywordChanged('');
   }
 
   delete(productId: number): void {
     this.productService.delete(productId)
-      .switchMap(() => this.search(this.queryControl.value))
+      .switchMap(() => this.search(this.keyword))
       .subscribe(products => this.products = products);
+  }
+
+  onKeywordChanged(text: string) {
+    this.keywordSubject.next(text);
   }
 
   search(keyword): Observable<Product[]> {
