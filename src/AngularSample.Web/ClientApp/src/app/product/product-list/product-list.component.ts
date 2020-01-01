@@ -1,8 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Product, ProductService} from '../../service/product.service';
 import {Observable, Subject} from "rxjs";
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/switchMap';
+import {debounceTime, switchMap} from "rxjs/operators";
 
 @Component({
   selector: 'product-list',
@@ -25,8 +24,10 @@ export class ProductListComponent implements OnInit {
 
   ngOnInit(): void {
     this.keywordSubject
-      .debounceTime(400)
-      .switchMap(keyword => this.search(keyword))
+      .pipe(
+        debounceTime(400),
+        switchMap(keyword => this.search(keyword))
+      )
       .subscribe(products => this.products = products);
 
     this.onKeywordChanged('');
@@ -34,7 +35,7 @@ export class ProductListComponent implements OnInit {
 
   delete(productId: number): void {
     this.productService.delete(productId)
-      .switchMap(() => this.search(this.keyword))
+      .pipe(switchMap(() => this.search(this.keyword)))
       .subscribe(products => this.products = products);
   }
 
